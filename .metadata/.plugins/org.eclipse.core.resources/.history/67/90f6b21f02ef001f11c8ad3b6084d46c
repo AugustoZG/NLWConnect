@@ -1,0 +1,7 @@
+spring.application.name = events
+spring.datasource.username= root
+spring.datasource.password=G@T0PR3T0o
+spring.datasource.url=jdbc:mysql://localhost:3306/db_events
+#spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.show_sql=true

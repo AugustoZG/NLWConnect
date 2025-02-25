@@ -1,0 +1,8 @@
+package br.com.nlw.events.model;
+
+
+@Entity
+@Table(name = "tbl_user")
+public class User {
+
+}

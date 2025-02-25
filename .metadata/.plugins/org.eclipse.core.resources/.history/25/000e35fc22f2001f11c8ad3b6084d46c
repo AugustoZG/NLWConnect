@@ -1,0 +1,54 @@
+package br.com.nlw.events.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import br.com.nlw.events.dto.SubscriptionConflictException;
+import br.com.nlw.events.exception.EventNotFoundException;
+import br.com.nlw.events.model.Event;
+import br.com.nlw.events.model.Subscription;
+import br.com.nlw.events.model.User;
+import br.com.nlw.events.repository.EventRepo;
+import br.com.nlw.events.repository.SubscriptionRepo;
+import br.com.nlw.events.repository.UserRepo;
+
+@Service
+public class SubscriptionService {
+	
+	@Autowired
+	private EventRepo evtRepo;
+	
+	@Autowired
+	private UserRepo userRepo;
+	
+	@Autowired
+	private SubscriptionRepo subRepo;
+	
+	public Subscription createNewSubscription(String eventName, User user) {
+		
+		//recuperar o evento pelo nome
+		Event evt = evtRepo.findByPrettyName(eventName);//Recupera o Nome do evento
+		if(evt == null) {// caso o evento exista prossiga
+			throw new EventNotFoundException("Evento " + eventName + " não existe");
+		}
+		
+		// validar caso o usuario esteja cadastrado
+		User userRec = userRepo.findByEmail(user.getEmail());
+		if (userRec == null) {
+			userRec = userRepo.save(user); // Grava o usuário no banco
+		}
+		
+		// caso o usuario ja esteja cadastrado neste evento
+		Subscription subs = new Subscription();
+		subs.setEvent(evt);
+		subs.setSubscriber(userRec);
+		
+		Subscription tmpSub = subRepo.findByEventAndSubscriber(evt, userRec);
+		if (tmpSub != null) {
+			throw new SubscriptionConflictException("Já existe inscrição para o usuário "  + userRec.getName())
+		}
+		
+		Subscription res = subRepo.save(subs);
+		return res;
+	}
+}

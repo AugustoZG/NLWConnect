@@ -1,0 +1,17 @@
+package br.com.nlw.events.model;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public class Event {
+
+	private Integer eventId;
+	private String title;
+	private String prettyName;
+	private String location;
+	private Double price;
+	private LocalDate startDate;
+	private LocalDate endDate;
+	private LocalTime startTime;
+	private LocalTime endTime;
+}

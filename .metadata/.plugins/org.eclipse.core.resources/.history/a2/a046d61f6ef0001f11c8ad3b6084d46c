@@ -1,0 +1,20 @@
+package br.com.nlw.events.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.com.nlw.events.model.Subscription;
+import br.com.nlw.events.service.SubscriptionService;
+
+@RestController
+public class SubscriptionController {
+
+	@Autowired
+	private SubscriptionService service;
+	
+	@PostMapping("/subscription/{prettyname}")
+	public ResponseEntity<Subscription> createSubscription(){
+		
+	}
+}

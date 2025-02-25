@@ -1,0 +1,41 @@
+package br.com.nlw.events.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import br.com.nlw.events.model.Event;
+import br.com.nlw.events.model.Subscription;
+import br.com.nlw.events.model.User;
+import br.com.nlw.events.repository.EventRepo;
+import br.com.nlw.events.repository.SubscriptionRepo;
+import br.com.nlw.events.repository.UserRepo;
+
+@Service
+public class SubscriptionService {
+	
+	@Autowired
+	private EventRepo evtRepo;
+	
+	@Autowired
+	private UserRepo userRepo;
+	
+	@Autowired
+	private SubscriptionRepo subRepo;
+	
+	public Subscription createNewSubscription(String eventName, User user) {
+		
+		//recuperar o evento pelo nome
+		Event evt = evtRepo.findByPrettyName(eventName);//Recupera o Nome do evento
+		User userRec = userRepo.findByEmail(user.getEmail());
+		if (userRec == null) {
+			userRec = userRepo.save(user); // Grava o usuário no banco
+		}
+		
+		Subscription subs = new Subscription();
+		subs.setEvent(evt);
+		subs.setSubscriber(userRec);
+		
+		Subscription res = subRepo.save(subs);
+		return res;
+	}
+}

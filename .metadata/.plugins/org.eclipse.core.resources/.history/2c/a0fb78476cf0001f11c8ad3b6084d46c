@@ -1,0 +1,13 @@
+package br.com.nlw.events.service;
+
+import org.springframework.stereotype.Service;
+
+import br.com.nlw.events.model.Subscription;
+import br.com.nlw.events.model.User;
+
+@Service
+public class SubscriptionService {
+	public Subscription createNewSubscription(String eventName, User user) {
+		Subscription subs = new Subscription();
+	}
+}
